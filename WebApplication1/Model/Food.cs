@@ -11,7 +11,7 @@ namespace WebApplication1.Model
 
         public FoodCategory FoodCategory { get; set; }
         [ForeignKey("Chef")]
-        public int ChefId { get; set; }
+        public int? ChefId { get; set; }
         public virtual Chef Chef { get; set; }
         public IList<Customer> customers { get; set; }
     }
