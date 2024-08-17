@@ -61,8 +61,16 @@ namespace WebApplication1.Controllers
         {
             //int id = (int)HttpContext.Request.RouteValues["id"];
             var food = await _db.foods.FirstOrDefaultAsync(f => f.Id == id);
+            _db.foods.Remove(food);
             await _db.SaveChangesAsync();
             return NoContent();
+        }
+
+        [HttpGet("filterPrice")]
+        public async Task<ActionResult<IEnumerable<GetFoodDto>>> FoodFilterPrice([FromQuery] float? lowerPrice, [FromQuery] float? higherPrice)
+        {
+            var foods = await _db.foods.Where(f=> f.Price >= lowerPrice && f.Price <= higherPrice).ToListAsync();
+            return Ok(_mapper.Map<List<GetFoodDto>>(foods));
         }
     }
 }
