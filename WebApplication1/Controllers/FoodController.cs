@@ -16,7 +16,5 @@ namespace WebApplication1.Controllers
             _db= db;
             _mapper= mapper;
         }
-
-
     }
 }
