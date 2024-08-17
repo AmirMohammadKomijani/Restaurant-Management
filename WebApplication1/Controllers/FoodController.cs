@@ -29,9 +29,9 @@ namespace WebApplication1.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<GetFoodDto>> GetOneFood()
+        public async Task<ActionResult<GetFoodDto>> GetOneFood([FromRoute] int id)
         {
-            var id = (int)HttpContext.Request.RouteValues["id"];
+            //var id = (int)HttpContext.Request.RouteValues["id"];
             var food = await _db.foods.FirstOrDefaultAsync(f => f.Id == id);
             return Ok(food);
         }
@@ -46,9 +46,9 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public async Task<ActionResult<Food>> UpdateFood([FromBody] UpdateFoodDto upFood)
+        public async Task<ActionResult<Food>> UpdateFood([FromBody] UpdateFoodDto upFood, [FromRoute] int id)
         {
-            int id = (int)HttpContext.Request.RouteValues["id"];
+            //int id = (int)HttpContext.Request.RouteValues["id"];
             var food = await _db.foods.FirstOrDefaultAsync(f => f.Id == id);
             var updated_food = _mapper.Map(upFood, food);
             _db.foods.Update(updated_food);
@@ -57,9 +57,9 @@ namespace WebApplication1.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        public async Task<ActionResult<Food>> DeleteFood()
+        public async Task<ActionResult<Food>> DeleteFood([FromRoute] int id)
         {
-            int id = (int)HttpContext.Request.RouteValues["id"];
+            //int id = (int)HttpContext.Request.RouteValues["id"];
             var food = await _db.foods.FirstOrDefaultAsync(f => f.Id == id);
             await _db.SaveChangesAsync();
             return NoContent();
