@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebApplication1.Data;
+using WebApplication1.Model.DTO.FoodDTOs;
 
 namespace WebApplication1.Controllers
 {
@@ -15,6 +17,13 @@ namespace WebApplication1.Controllers
         {
             _db= db;
             _mapper= mapper;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<GetFoodDto>>> GetFoods()
+        {
+            var foods = await _db.foods.ToListAsync();
+            return Ok(_mapper.Map<List<GetFoodDto>>(foods));
         }
     }
 }
