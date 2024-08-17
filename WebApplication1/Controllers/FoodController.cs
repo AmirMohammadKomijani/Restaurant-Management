@@ -47,5 +47,14 @@ namespace WebApplication1.Controllers
             await _db.SaveChangesAsync();
             return Ok(updated_food);
         }
+
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult<Food>> DeleteFood()
+        {
+            int id = (int)HttpContext.Request.RouteValues["id"];
+            var food = await _db.foods.FirstOrDefaultAsync(f => f.Id == id);
+            await _db.SaveChangesAsync();
+            return NoContent();
+        }
     }
 }
