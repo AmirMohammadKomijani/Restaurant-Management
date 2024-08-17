@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using WebApplication1.Data;
 using WebApplication1.Model;
 using WebApplication1.Model.DTO.FoodDTOs;
+using WebApplication1.Model.DTO.UpdateFoodDto;
 
 namespace WebApplication1.Controllers
 {
@@ -34,6 +35,17 @@ namespace WebApplication1.Controllers
             await _db.foods.AddAsync(food);
             await _db.SaveChangesAsync();
             return food;
+        }
+
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<Food>> UpdateFood([FromBody] UpdateFoodDto upFood)
+        {
+            int id = (int)HttpContext.Request.RouteValues["id"];
+            var food = await _db.foods.FirstOrDefaultAsync(f => f.Id == id);
+            var updated_food = _mapper.Map(upFood, food);
+            _db.foods.Update(updated_food);
+            await _db.SaveChangesAsync();
+            return Ok(updated_food);
         }
     }
 }
