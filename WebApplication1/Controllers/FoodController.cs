@@ -28,6 +28,14 @@ namespace WebApplication1.Controllers
             return Ok(_mapper.Map<List<GetFoodDto>>(foods));
         }
 
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<GetFoodDto>> GetOneFood()
+        {
+            var id = (int)HttpContext.Request.RouteValues["id"];
+            var food = await _db.foods.FirstOrDefaultAsync(f => f.Id == id);
+            return Ok(food);
+        }
+
         [HttpPost]
         public async Task<ActionResult<Food>> CreateFood([FromBody] CreateFoodDto crFood)
         {
