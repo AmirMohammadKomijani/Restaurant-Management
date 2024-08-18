@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Data;
+using WebApplication1.Model;
 using WebApplication1.Model.DTO.CustomerDTOs;
 
 namespace WebApplication1.Controllers
@@ -33,7 +34,16 @@ namespace WebApplication1.Controllers
             return Ok(_mapper.Map<GetCustomerDto>(customer));
         }
 
-
+        [HttpPost]
+        public async Task<ActionResult<GetCustomerDto>> CreateCustomer([FromBody] CreateCustomerDto crCustomer)
+        {
+            
+            var newCustomer = _mapper.Map<Customer>(crCustomer);
+            await _db.AddAsync(newCustomer);
+            await _db.SaveChangesAsync();
+            var lastCustomer = await _db.customers.OrderBy(c=> c.Id).LastAsync();
+            return Ok(_mapper.Map<GetCustomerDto>(lastCustomer));
+        }
 
     }
 }
