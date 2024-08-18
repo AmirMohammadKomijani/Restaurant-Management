@@ -23,8 +23,16 @@ namespace WebApplication1.Controllers
         public async Task<ActionResult<IEnumerable<GetCustomerDto>>> GetCustomers()
         {
             var customers = await _db.customers.ToListAsync();
-            return Ok(_mapper.Map<GetCustomerDto>(customers));
+            return Ok(_mapper.Map<List<GetCustomerDto>>(customers));
         }
+
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<GetCustomerDto>> GetOneCustomer([FromRoute] int id)
+        {
+            var customer = await _db.customers.FirstOrDefaultAsync(c => c.Id == id);
+            return Ok(_mapper.Map<GetCustomerDto>(customer));
+        }
+
 
 
     }
