@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebApplication1.Data;
+using WebApplication1.Model.DTO.CustomerDTOs;
 
 namespace WebApplication1.Controllers
 {
@@ -16,5 +18,14 @@ namespace WebApplication1.Controllers
             _mapper = mapper;
             _db = db;
         }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<GetCustomerDto>>> GetCustomers()
+        {
+            var customers = await _db.customers.ToListAsync();
+            return Ok(_mapper.Map<GetCustomerDto>(customers));
+        }
+
+
     }
 }

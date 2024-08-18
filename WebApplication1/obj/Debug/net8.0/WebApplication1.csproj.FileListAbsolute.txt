@@ -136,3 +136,4 @@ E:\uni\Term8\TA\AP Dr.Etemadi\Restaurant Project\WebApplication1\obj\Debug\net8.
 E:\uni\Term8\TA\AP Dr.Etemadi\Restaurant Project\WebApplication1\obj\Debug\net8.0\WebApplication1.genruntimeconfig.cache
 E:\uni\Term8\TA\AP Dr.Etemadi\Restaurant Project\WebApplication1\obj\Debug\net8.0\ref\WebApplication1.dll
 E:\uni\Term8\TA\AP Dr.Etemadi\Restaurant Project\WebApplication1\bin\Debug\net8.0\AutoMapper.dll
+E:\uni\Term8\TA\AP Dr.Etemadi\Restaurant Project\WebApplication1\obj\Debug\net8.0\WebApplication1.sourcelink.json
