@@ -14,7 +14,7 @@ namespace WebApplication1.Controllers
         private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;
 
-        public CustomerController(ApplicationDbContext db,IMapper mapper)
+        public CustomerController(ApplicationDbContext db, IMapper mapper)
         {
             _mapper = mapper;
             _db = db;
@@ -37,13 +37,31 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public async Task<ActionResult<GetCustomerDto>> CreateCustomer([FromBody] CreateCustomerDto crCustomer)
         {
-            
+
             var newCustomer = _mapper.Map<Customer>(crCustomer);
             await _db.AddAsync(newCustomer);
             await _db.SaveChangesAsync();
-            var lastCustomer = await _db.customers.OrderBy(c=> c.Id).LastAsync();
+            var lastCustomer = await _db.customers.OrderBy(c => c.Id).LastAsync();
             return Ok(_mapper.Map<GetCustomerDto>(lastCustomer));
         }
 
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<GetCustomerDto>> UpdateCustomer([FromBody] UpdateCustomerDto upCustomer, [FromRoute] int id)
+        {
+            var customer = await _db.customers.FirstOrDefaultAsync(c => c.Id == id);
+            var updatedCustomer = _mapper.Map(upCustomer,customer);
+            _db.customers.Update(updatedCustomer);
+            await _db.SaveChangesAsync();
+            return Ok(_mapper.Map<GetCustomerDto>(updatedCustomer));
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult<GetCustomerDto>> DeleteCustomer([FromRoute]int id)
+        {
+            var customer = await _db.customers.FirstOrDefaultAsync(c => c.Id==id);
+            _db.customers.Remove(customer);
+            await _db.SaveChangesAsync();
+            return NoContent();
+        }
     }
 }
